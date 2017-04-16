@@ -8,8 +8,7 @@ public class Hole implements Cloneable {
 	private int belongsto; // id of the player that the hole belongs to (0 or 1)
 	private int type; // Normal or Mancala
 	
-	public Hole (int type)
-	{
+	public Hole (int type){
 		if(type != MANCALA_HOLE && type != NORMAL_HOLE) 
 			throw new IllegalArgumentException();
 		this.type = type;

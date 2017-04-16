@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.Random;
+
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -9,29 +9,28 @@ import javax.swing.event.*;
 public class PitPanel extends JPanel implements ChangeListener{
 	private Pits myPits;
 	private Model data;
+	private int id;
 	
 	public PitPanel(){
 		data = new Model();
+		myPits = new Pits();
 	}
 	
 	/**
-	 * Somthing changed
+	 * Update this pit with the most recent changes in model.
+	 * @param e an event containing the model object.
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e){
-		data = (Datamodel) e.getSource();
-		for(){
-			
-			
-		}
+		data = (Model) e.getSource();
 		repaint();
 	}
 
 	/**
 	 * Gets copy of data.
-	 * @return the Data model
+	 * @return the data
 	 */
-	public DataModel getData(){
+	public Model getData(){
 		return data;
 	}
 	
@@ -45,8 +44,9 @@ public class PitPanel extends JPanel implements ChangeListener{
 	/**
 	 * Creates an ellipse to use as a stone.
 	 */
-	public void drawStones(Pit p, Graphic g, int x, int y){
+	public void drawStones(Pits p, Graphics g, int x, int y){
 		Graphics2D g2 = (Graphics2D) g;
-		
+		g2.draw(p);
 	}
+
 }
