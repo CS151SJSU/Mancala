@@ -8,6 +8,13 @@ public class Model {
 	private int currentHole; //at what hole should you start the current turn
 	private boolean isFirstPlayerTurn; // Indicates whehter it is the turn of player 1 or player 2
 	private ArrayList<ChangeListener> listeners;
+	private PitPanel pits;
+	
+	public Model(){
+		data = new ArrayList<Hole>();
+		pits = new PitPanel();
+		listeners = new ArrayList<ChangeListener>();
+	}
 	
 	// Get the entire list of Holes
 	public ArrayList<Hole> getData() {
@@ -32,8 +39,7 @@ public class Model {
 	}
 
 	// Returns null in case of any exception; in case of correct index returns the object
-	public Hole getHole(int id)
-	{
+	public Hole getHole(int id){
 		try {
 			return (Hole) data.get(id).clone();
 		} catch (CloneNotSupportedException e1) {
@@ -54,6 +60,4 @@ public class Model {
 		
 	}
 	
-	
-
 }

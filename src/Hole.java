@@ -1,4 +1,3 @@
-
 public class Hole implements Cloneable {
 
 	public static final int MANCALA_HOLE = 1;
@@ -11,42 +10,53 @@ public class Hole implements Cloneable {
 	
 	public Hole (int type)
 	{
-		if(type != MANCALA_HOLE && type != NORMAL_HOLE) throw new IllegalArgumentException();
+		if(type != MANCALA_HOLE && type != NORMAL_HOLE) 
+			throw new IllegalArgumentException();
 		this.type = type;
 	}
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public int getStonesCount() {
 		return stonesCount;
 	}
+	
 	public void setStonesCount(int stonesCount) {
 		this.stonesCount = stonesCount;
 	}
+	
 	public boolean isEmpty() {
 		return isEmpty;
 	}
+	
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
 	}
+	
 	public int getBelongsto() {
 		return belongsto;
 	}
+	
 	public void setBelongsto(int belongsto) {
 		this.belongsto = belongsto;
 	}
+	
 	public int getType() {
 		return type;
 	}
+	
 	public void setType(int type) {
 		this.type = type;
 	}
 	
 	public Object clone()throws CloneNotSupportedException{  
 		return super.clone();  
-		} 
+	} 
 	
 }
