@@ -9,7 +9,6 @@ import javax.swing.event.*;
 public class PitPanel extends JPanel implements ChangeListener{
 	private Pits myPits;
 	private Model data;
-	private int id;
 	
 	public PitPanel(){
 		data = new Model();
