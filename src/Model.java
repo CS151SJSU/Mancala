@@ -34,8 +34,6 @@ public class Model {
 		return isFirstPlayerTurn;
 	}
 	
-	
-
 	public void setIsFirstPlayerTurn(boolean isFirstPlayerTurn) {
 		this.isFirstPlayerTurn = isFirstPlayerTurn;
 	}
