@@ -26,10 +26,10 @@ public class PitPanel extends JPanel implements ChangeListener
 		
 		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
-			if(i == 0 && i == 13)
+			if(i == 0 && i == 7)
 				myPits[i] = new PitView(model, i, 0, 0, 0, true);// The coordinate need to be changed
 			else
-				myPits[i] = new PitView(model, i, 4, 0, 0, true);// The coordinate need to be changed
+				myPits[i] = new PitView(model, i, 4, 0, 0, false);// The coordinate need to be changed
 		}
 	}
 	
