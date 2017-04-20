@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,23 +14,25 @@ public class PitPanel extends JPanel implements ChangeListener
 	private ArrayList<Hole> data;
 	private static final int DEFAULT_WIDTH = 500;
 	private static final int DEFAULT_HEIGHT = 200;
-	private static final int NUM_PITS = 14;
-	private final static int DEFAULT_STONE_X = 0;
-	private final static int DEFAULT_STONE_Y = 0;
-	private Rectangle2D.double board;
+	private static final int DEFAULT_PITS_NUMBER = 14;
+	private Rectangle2D.Double board;
 	
 	public PitPanel()
 	{
 		model = new Model();
 		data = new ArrayList<Hole>();
-		myPits = new PitView[NUM_PITS];
+		myPits = new PitView[DEFAULT_PITS_NUMBER];
 		board = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
-		for(int i = 0; i < NUM_PITS; i++)
+		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
-			myPits[i] = new PitView(model, i, 4, 0, 0); //4 stones, draw at 0,0 for now, need to change location
+			if(i == 0 && i == 13)
+				myPits[i] = new PitView(model, i, 0, 0, 0, true);// The coordinate need to be changed
+			else
+				myPits[i] = new PitView(model, i, 4, 0, 0, true);// The coordinate need to be changed
 		}
 	}
+	
 	
 	/**
 	 * Update this pit with the most recent changes in model.
@@ -38,9 +41,9 @@ public class PitPanel extends JPanel implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		data = model.getData()
+		data = model.getData();
 		int stones = 0;
-		for(int i = 0; i < NUM_PITS; i++)
+		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
 		   stones = data.get(i).getStonesCount();
 		   myPits[i].setNumStones(stones);
@@ -64,7 +67,7 @@ public class PitPanel extends JPanel implements ChangeListener
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
 		g2.draw(board);
-		for(int i = 0; i < NUM_PITS; i++)
+		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
 			g2.draw(myPits[i]);
 		}
