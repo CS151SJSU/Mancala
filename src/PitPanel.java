@@ -53,7 +53,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
-		JPanel panel = new JPanel();
+		
 		for(PitView p: pitList){
 			g2.draw(p);
 		}
