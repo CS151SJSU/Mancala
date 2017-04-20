@@ -6,23 +6,26 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class PitPanel extends JPanel implements ChangeListener{
-	private PitView myPits;
+public class PitPanel extends JPanel implements ChangeListener
+{
+	private PitView[] myPits;
 	private Model model;
 	private ArrayList<Hole> data;
-	private ArrayList<PitView> pitList;
-	private static final int DEFAULT_WIDTH = 60;
-	private static final int DEFAULT_HEIGHT = 60;
+	private static final int DEFAULT_WIDTH = 500;
+	private static final int DEFAULT_HEIGHT = 200;
+	private static final int NUM_PITS = 14;
 	private final static int DEFAULT_STONE_X = 0;
 	private final static int DEFAULT_STONE_Y = 0;
 	
-	public PitPanel(){
+	public PitPanel()
+	{
 		model = new Model();
 		data = new ArrayList<Hole>();
-		pitList = new ArrayList<PitView>();
+		myPits = new PitView[NUM_PITS];
 		
-		for(int i = 0; i < pitList.size(); i++){
-			
+		for(int i = 0; i < NUM_PITS; i++)
+		{
+			myPits[i] = new PitView(model, i, 4, 0, 0); //4 stones, draw at 0,0 for now, need to change location
 		}
 	}
 	
@@ -31,10 +34,14 @@ public class PitPanel extends JPanel implements ChangeListener{
 	 * @param e an event containing the model object.
 	 */
 	@Override
-	public void stateChanged(ChangeEvent e){
-		data = (ArrayList<Hole>) e.getSource();
-		for(Hole d: data){
-			d.getStonesCount();
+	public void stateChanged(ChangeEvent e)
+	{
+		data = model.getData()
+		int stones = 0;
+		for(int i = 0; i < NUM_PITS; i++)
+		{
+		   stones = data.get(i).getNumStones;
+		   myPits[i].setNumStones(stones);
 		}
 		this.repaint();
 	}
@@ -50,11 +57,12 @@ public class PitPanel extends JPanel implements ChangeListener{
 	 * Paint the Pits on the Panel.
 	 * @param pit
 	 */
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g)
+	{
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
 		
-		for(PitView p: pitList){
+		for(int i = 0; i < NUM_PITS; i++){
 			g2.draw(p);
 		}
 	}
@@ -62,8 +70,9 @@ public class PitPanel extends JPanel implements ChangeListener{
 	/**
 	 * Creates an ellipse to use as a stone.
 	 */
-	public void drawStones(PitView p, Graphics g, int x, int y){
-		Graphics2D g2 = (Graphics2D) g;
-		g2.draw(p);
+	public void drawStones(PitView p, Graphics g, int x, int y)
+	{
+		//Graphics2D g2 = (Graphics2D) g;
+		//g2.draw(p);
 	}
 }
