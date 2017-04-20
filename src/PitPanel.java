@@ -16,12 +16,14 @@ public class PitPanel extends JPanel implements ChangeListener
 	private static final int NUM_PITS = 14;
 	private final static int DEFAULT_STONE_X = 0;
 	private final static int DEFAULT_STONE_Y = 0;
+	private Rectangle2D.double board;
 	
 	public PitPanel()
 	{
 		model = new Model();
 		data = new ArrayList<Hole>();
 		myPits = new PitView[NUM_PITS];
+		board = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		for(int i = 0; i < NUM_PITS; i++)
 		{
@@ -40,7 +42,7 @@ public class PitPanel extends JPanel implements ChangeListener
 		int stones = 0;
 		for(int i = 0; i < NUM_PITS; i++)
 		{
-		   stones = data.get(i).getNumStones;
+		   stones = data.get(i).getStonesCount();
 		   myPits[i].setNumStones(stones);
 		}
 		this.repaint();
@@ -61,9 +63,10 @@ public class PitPanel extends JPanel implements ChangeListener
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
-		
-		for(int i = 0; i < NUM_PITS; i++){
-			g2.draw(p);
+		g2.draw(board);
+		for(int i = 0; i < NUM_PITS; i++)
+		{
+			g2.draw(myPits[i]);
 		}
 	}
 	
