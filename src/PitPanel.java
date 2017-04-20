@@ -7,10 +7,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class PitPanel extends JPanel implements ChangeListener{
-	private Pits myPits;
+	private PitView myPits;
 	private Model model;
 	private ArrayList<Hole> data;
-	private ArrayList<Pits> pitList;
+	private ArrayList<PitView> pitList;
 	private static final int DEFAULT_WIDTH = 60;
 	private static final int DEFAULT_HEIGHT = 60;
 	private final static int DEFAULT_STONE_X = 0;
@@ -18,9 +18,8 @@ public class PitPanel extends JPanel implements ChangeListener{
 	
 	public PitPanel(){
 		model = new Model();
-		myPits = new Pits();
 		data = new ArrayList<Hole>();
-		pitList = new ArrayList<Pits>();
+		pitList = new ArrayList<PitView>();
 		
 		for(int i = 0; i < pitList.size(); i++){
 			
@@ -48,14 +47,14 @@ public class PitPanel extends JPanel implements ChangeListener{
 		return model;
 	}
 	/**
-	 * Paint all the pits on the panel.
+	 * Paint the Pits on the Panel.
 	 * @param pit
 	 */
 	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
-		//Missing something on this line? Is that a JPanel?
-		//JPanel panel = new JPanel();
-		for(Pits p: pitList){
+		//Missing something on this line?
+		JPanel panel = new JPanel();
+		for(PitView p: pitList){
 			g2.draw(p);
 		}
 	}
@@ -63,7 +62,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 	/**
 	 * Creates an ellipse to use as a stone.
 	 */
-	public void drawStones(Pits p, Graphics g, int x, int y){
+	public void drawStones(PitView p, Graphics g, int x, int y){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.draw(p);
 	}
