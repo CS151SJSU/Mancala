@@ -48,12 +48,13 @@ public class PitPanel extends JPanel implements ChangeListener{
 		return model;
 	}
 	/**
-	 * Fo
+	 * Paint all the pits on the panel.
 	 * @param pit
 	 */
 	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
-		//Missing something on this line?
+		//Missing something on this line? Is that a JPanel?
+		JPanel panel = new JPanel();
 		for(Pits p: pitList){
 			g2.draw(p);
 		}
