@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
@@ -12,19 +13,24 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 	
 	private static boolean player1Turn;
 	
-	private static final int BOARD_WIDTH = 500;
-	private static final int BOARD_HEIGHT = 200;
+	private static final int BOARD_WIDTH = 1000;
+	private static final int BOARD_HEIGHT = 400;
 	private static final int PIT_RADIUS = BOARD_WIDTH / 20;
+	private static final int PIT_WIDTH = BOARD_WIDTH / 8;
+	private static final int PIT_HEIGHT = BOARD_HEIGHT / 2;
+	private static final int MANCALA_HEIGHT = BOARD_HEIGHT;
 	
 	public PitView(Model model, int pitNumber, int numStones, int xPos, int yPos)
 	{
-		super(xPos, yPos, 2 * PIT_RADIUS, 2 * PIT_RADIUS);
+		super(xPos, yPos, PIT_WIDTH , PIT_WIDTH);
 		this.model = model;
 		this.pitNumber = pitNumber;
 		this.numStones = numStones;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		player1Turn = true;
+		
+		
 	}
 	
 	//Make this constructor take an extra parameter to flag it for constructing a Mancala pit
@@ -33,7 +39,7 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 	public PitView(Model model, int pitNumber, int numStones, int xPos, int yPos, boolean mancalaFlag)
 	{
 		//Make the height twice as large as normal pit for now
-		super(xPos, yPos, 2 * PIT_RADIUS, 4 * PIT_RADIUS);
+		super(xPos, yPos, PIT_WIDTH, MANCALA_HEIGHT);
 		this.model = model;
 		this.pitNumber = pitNumber;
 		this.numStones = numStones;
@@ -61,9 +67,9 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 		else			//Player selected a valid pit
 		{
 			//NEED RAHUL TO CHANGE SIGNATURE OF UPDATEBOARD TO RETURN BOOLEAN
-			boolean goAgain = model.updateBoard(pitNumber);	//do the move and see if landed in on Mancala
+			//boolean goAgain = model.updateBoard(pitNumber);	//do the move and see if landed in on Mancala
 			//If we didn't get an extra turn, switch turn by negating the value
-			if(!goAgain)
+			//if(!goAgain)
 			{
 				player1Turn = !player1Turn;
 			}
@@ -102,9 +108,9 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 		else			//Player selected a valid pit
 		{
 			//NEED RAHUL TO CHANGE SIGNATURE OF UPDATEBOARD TO RETURN BOOLEAN
-			boolean goAgain = model.updateBoard(pitNumber);	//do the move and see if landed in on Mancala
+			//boolean goAgain = model.updateBoard(pitNumber);	//do the move and see if landed in on Mancala
 			//If we didn't get an extra turn, switch turn by negating the value
-			if(!goAgain)
+			//if(!goAgain)
 			{
 				player1Turn = !player1Turn;
 			}
@@ -132,4 +138,16 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 	{
 		this.numStones = numStones;
 	}
+	
+	public int getXPos()
+	{
+		return xPos;
+	}
+	
+	public int getYPos()
+	{
+		return yPos;
+	}
+	
+	
 }
