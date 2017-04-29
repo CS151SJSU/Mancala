@@ -12,18 +12,57 @@ public class PitPanel extends JPanel implements ChangeListener
 	private PitView[] myPits;
 	private Model model;
 	private ArrayList<Hole> data;
+	private Point mousePosition;
+	private Rectangle2D.Double board;
+	
+	private static final double PI = 3.14159265359;
+
 	private static final int DEFAULT_WIDTH = 1000;
 	private static final int DEFAULT_HEIGHT = 400;
 	private static final int PIT_WIDTH = DEFAULT_WIDTH / 8;
 	private static final int PIT_HEIGHT = DEFAULT_HEIGHT / 2;
 	private static final int MANCALA_HEIGHT = DEFAULT_HEIGHT;
 	private static final int DEFAULT_PITS_NUMBER = 14;
-	private static final double PI = 3.14159265359;
-	private Rectangle2D.Double board;
+
+	
 	
 	public PitPanel(Model model)
 	{
-		this.setSize(500, 200);
+		this.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mousePressed(MouseEvent event)
+				{
+					mousePosition = event.getPoint();	//get Mouse Click Position
+					for(int i = 0; i < myPits.length; i++)
+					{
+						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
+						{
+							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 13)
+							{
+								return;	//don't allow click on Mancala Pit
+							}
+							else if(myPits[i].getPitNumber() > 6 && model.getIsFirstPlayerTurn())
+							{
+								return;	//don't allow player 1 to select player 2 pit
+							}
+							else if(model.getIsFirstPlayerTurn() == false && myPits[i].getPitNumber() < 7)
+							{
+								return;	//don't allow player 2 to click player 1 pit
+							}
+							else if(myPits[i].getNumStones() == 0)
+							{
+								return;
+							}
+							else
+							{
+								model.updateBoard(myPits[i].getPitNumber());
+							}
+						}
+					}
+				}
+			  });
+		this.setSize(1000, 400);
 		this.setLayout(new FlowLayout());
 		data = new ArrayList<Hole>();
 		myPits = new PitView[DEFAULT_PITS_NUMBER];
@@ -41,6 +80,7 @@ public class PitPanel extends JPanel implements ChangeListener
 			{
 				myPits[j] = new PitView(model, j, 4, PIT_WIDTH * j - DEFAULT_WIDTH + PIT_WIDTH, DEFAULT_HEIGHT / 2);
 			}
+
 	}
 	
 	

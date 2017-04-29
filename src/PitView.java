@@ -51,6 +51,7 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent event) 
 	{
+		System.out.println("NIPPLES");
 		if(player1Turn && pitNumber > 6)	//If Player 1 turn, and click Player 2 pit
 		{
 			return;					//Do Nothing
@@ -92,6 +93,7 @@ public class PitView extends Ellipse2D.Double implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent arg0) 
 	{
+		System.out.println("NIPPLES");
 		if(player1Turn && pitNumber > 6)	//If Player 1 turn, and click Player 2 pit
 		{
 			return;					//Do Nothing
