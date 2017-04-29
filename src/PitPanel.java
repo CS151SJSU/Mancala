@@ -52,11 +52,11 @@ public class PitPanel extends JPanel implements ChangeListener
 							}
 							else if(myPits[i].getNumStones() == 0)
 							{
-								return;
+								return;	//cant move if no stones in pit
 							}
 							else
 							{
-								model.updateBoard(myPits[i].getPitNumber());
+								model.updateBoard(myPits[i].getPitNumber()); // do move
 							}
 						}
 					}
@@ -117,54 +117,166 @@ public class PitPanel extends JPanel implements ChangeListener
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
 		g2.draw(board);
-		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
+		g2.draw(myPits[0]);
+		g2.draw(myPits[7]);
+		for(int i = 1; i < 7; i++)
 		{
 			g2.draw(myPits[i]);
-			double centerX = myPits[i].getXPos() + PIT_WIDTH / 2;
-			double centerY = myPits[i].getYPos() + PIT_WIDTH / 2;
-			centerX -= PIT_WIDTH / 12;
-			centerY -= PIT_WIDTH / 12;
-			int offset = PIT_WIDTH / 6;
-			double angle = 0;
-			int j = 0;
-			if(myPits[i].getNumStones() > 0)
-			{
-				Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
-				g2.draw(stone);
-				j++;
-			}
-			while(j < myPits[i].getNumStones() && j < 7)
-			{
-				double x = centerX + Math.cos(angle) * offset;
-				double y = centerY + Math.sin(angle) * offset;
-				Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-		
-				g2.draw(stone);
-				angle += PI / 3;
-				j++;
-			}
-			
-			offset += PIT_WIDTH / 6;
-			while(j < myPits[i].getNumStones() && j < 19)
-			{
-				double x = centerX + Math.cos(angle) * offset;
-				double y = centerY + Math.sin(angle) * offset;
-				Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-		
-				g2.draw(stone);
-				angle += PI / 6;
-				j++;
-			}
-			
+			drawPitStones(myPits[i], g2);
 		}
+		for(int i = 8; i < 14; i++)
+		{
+			g2.draw(myPits[i]);
+			drawPitStones(myPits[i], g2);
+		}
+		drawMancalaStones(myPits[0], g2);
+		drawMancalaStones(myPits[7], g2);
 	}
 	
 	/**
 	 * Creates an ellipse to use as a stone.
 	 */
-	public void drawStones(PitView p, Graphics g, int x, int y)
+	public void drawPitStones(PitView p, Graphics2D g2)
 	{
-		//Graphics2D g2 = (Graphics2D) g;
-		//g2.draw(p);
+		double centerX = p.getXPos() + PIT_WIDTH / 2;
+		double centerY = p.getYPos() + PIT_WIDTH / 2;
+		centerX -= PIT_WIDTH / 12;
+		centerY -= PIT_WIDTH / 12;
+		
+		int offset = PIT_WIDTH / 6;
+		double angle = 0;
+		
+		int j = 0;
+		if(p.getNumStones() > 0)
+		{
+			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
+			g2.draw(stone);
+			j++;
+		}
+		while(j < p.getNumStones() && j < 7)
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 3;
+			j++;
+		}
+		
+		offset += PIT_WIDTH / 6;
+		while(j < p.getNumStones() && j < 19)
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 6;
+			j++;
+		}
 	}
+	
+	public void drawMancalaStones(PitView p, Graphics2D g2)
+	{
+		double centerX = p.getXPos() + PIT_WIDTH / 2;
+		double centerY = DEFAULT_HEIGHT / 3;
+		centerX -= PIT_WIDTH / 12;
+		centerY -= PIT_WIDTH / 3;
+		int offset = PIT_WIDTH / 6;
+		double angle = 0;
+		
+		int j = 0;
+		if(p.getNumStones() > 0)
+		{
+			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
+			g2.draw(stone);
+			j++;
+		}
+		while(j < p.getNumStones() && j < 7)
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 3;
+			j++;
+		}
+		offset += PIT_WIDTH / 6;
+		while(j < p.getNumStones() && j < 19)
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 6;
+			j++;
+		}
+		offset -= PIT_WIDTH / 6;
+		centerY = 2 * DEFAULT_HEIGHT / 3;
+		centerY += PIT_WIDTH / 6;
+		if(p.getNumStones() > 19)
+		{
+			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
+			g2.draw(stone);
+			j++;
+		}
+		while(j < p.getNumStones() && j < 26)
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 3;
+			j++;
+		}
+		offset += PIT_WIDTH / 6;
+		while(j < p.getNumStones() && j < 38)
+		{	
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 6;
+			j++;	
+		}
+		centerX = p.getXPos() + PIT_WIDTH / 2 - PIT_WIDTH / 12;
+		centerY = DEFAULT_HEIGHT / 2 - PIT_WIDTH / 6;
+		if(p.getNumStones() > 38)
+		{
+			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
+			g2.draw(stone);
+			j++;
+		}
+		offset -= PIT_WIDTH / 6;
+		while(j < p.getNumStones() && j < 45)
+		{	
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+	
+			g2.draw(stone);
+			angle += PI / 3;
+			j++;	
+		}
+		offset += PIT_WIDTH / 8;
+		angle = PI / 2;
+		while(j < p.getNumStones())
+		{
+			double x = centerX + Math.cos(angle) * offset;
+			double y = centerY + Math.sin(angle) * offset;
+			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
+			g2.draw(stone);
+			angle += 2 * PI / 3;
+			j++;
+		}
+	}
+	
+	
+	
+	
 }
