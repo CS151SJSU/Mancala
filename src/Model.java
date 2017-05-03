@@ -20,7 +20,7 @@ public class Model {
 
 	public Model() {
 		data = new ArrayList<Hole>();
-		for (int i = 0; i < data.size(); i++) {
+		for (int i = 0; i < TOTAL_HOLES; i++) {
 			int type, belongsTo, initialStonesCount;
 			// Set whether the hole is normal or mancala
 			if (i == 0 || i == TOTAL_HOLES / 2) {
@@ -88,13 +88,15 @@ public class Model {
 	// Mutator of data model that gets called after the player plays a turn i.e
 	// Controller updates data
 	public void updateBoard(int pitNumber) {
-
+		
+		System.out.println("At start of move stones");
+		System.out.println("Pit No -->" + pitNumber);
 		Hole lastHole = moveStones(pitNumber);
-
+		System.out.println("Before game over");
 		// check for game over
 		gameOver();
 
-		// Check and take care of the case where the stone ends up in an empty hole on the side of the player playing the turn
+		// Check and take care of the case where the stone getIsFirstPlayerTurngetIsFirstPlayerTurnends up in an empty hole on the side of the player playing the turn
 		checkEmpty(lastHole);
 		
 		// if there is no additional turn then toggle or change the turn
