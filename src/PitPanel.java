@@ -86,7 +86,7 @@ public class PitPanel extends JPanel implements ChangeListener
 			}
 			for(int j = 8; j < 14; j++)
 			{
-				myPits[j] = new PitView(model,21-j, 4, PIT_WIDTH * j - DEFAULT_WIDTH + PIT_WIDTH, 0);
+				myPits[j] = new PitView(model, j, 4, DEFAULT_WIDTH - 2*PIT_WIDTH - (j-8)*PIT_WIDTH, 0);
 			}
 
 	}
@@ -108,7 +108,7 @@ public class PitPanel extends JPanel implements ChangeListener
 		   stones = data.get(i).getStonesCount();
 		   myPits[i].setNumStones(stones);
 		}
-		this.repaint();
+		repaint();
 	}
 
 	/**
@@ -124,6 +124,7 @@ public class PitPanel extends JPanel implements ChangeListener
 	 */
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
 		g2.draw(board);
@@ -142,6 +143,8 @@ public class PitPanel extends JPanel implements ChangeListener
 		drawMancalaStones(myPits[0], g2);
 		drawMancalaStones(myPits[7], g2);
 	}
+	
+
 	
 	/**
 	 * Creates an ellipse to use as a stone.
@@ -205,6 +208,7 @@ public class PitPanel extends JPanel implements ChangeListener
 		}
 		while(j < p.getNumStones() && j < 7)
 		{
+			System.out.println(j + "" + p.getNumStones());
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
