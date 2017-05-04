@@ -20,7 +20,7 @@ public class Model {
 
 	public Model() {
 		data = new ArrayList<Hole>();
-		for (int i = 0; i < data.size(); i++) {
+		for (int i = 0; i < TOTAL_HOLES; i++) {
 			int type, belongsTo, initialStonesCount;
 			// Set whether the hole is normal or mancala
 			if (i == 0 || i == TOTAL_HOLES / 2) {
@@ -88,13 +88,15 @@ public class Model {
 	// Mutator of data model that gets called after the player plays a turn i.e
 	// Controller updates data
 	public void updateBoard(int pitNumber) {
-
+		
+		System.out.println("At start of move stones");
+		System.out.println("Pit No -->" + pitNumber);
 		Hole lastHole = moveStones(pitNumber);
-
+		System.out.println("Before game over");
 		// check for game over
 		gameOver();
 
-		// Check and take care of the case where the stone ends up in an empty hole on the side of the player playing the turn
+		// Check and take care of the case where the stone getIsFirstPlayerTurngetIsFirstPlayerTurnends up in an empty hole on the side of the player playing the turn
 		checkEmpty(lastHole);
 		
 		// if there is no additional turn then toggle or change the turn
@@ -104,6 +106,11 @@ public class Model {
 		// Inform listeners of data change
 		for (ChangeListener l : listeners) {
 			l.stateChanged(new ChangeEvent(this));
+		}
+		
+		for(int i = 0; i < data.size(); i++)
+		{
+			System.out.println(i + " " + data.get(i).getStonesCount());
 		}
 
 	}
@@ -158,23 +165,50 @@ public class Model {
 		int stonesDist = currentHole.getStonesCount();
 		// Change the pits stones to zero
 		currentHole.setStonesCount(0);
+		
+		/*
+		 * I Changed this because the code I commented out below was walking out of bounds
+		 * This may not be the most efficient solution, but it behaves as expected
+		 */
+		
+		int index = pitNumber + 1;
+		int stonesRemaining = stonesDist;
+		while(stonesRemaining > 0)
+		{
+			if(index == 14)
+			{
+				index = 0;
+			}
+			Hole nextHole = (Hole) data.get(index);
+			nextHole.setStonesCount(nextHole.getStonesCount() + 1);
+			stonesRemaining--;
+			if(stonesRemaining == 0)
+			{
+				lastHole = data.get(index);
+			}
+			index++;
+		}
+		
 		// if there are more than 14 stones in the current Hole do a full round
 		// of incrementing stones in all holes
-		int fullRound = stonesDist / TOTAL_HOLES;
-		int remStones = stonesDist % TOTAL_HOLES;
-		if (fullRound > 0)
-			for (Hole hole : data)
-				hole.setStonesCount(hole.getStonesCount() + 1);
+	
+		
+		//int fullRound = stonesDist / TOTAL_HOLES;
+		//int remStones = stonesDist % TOTAL_HOLES;
+		//if (fullRound > 0)
+		//	for (Hole hole : data)
+		//		hole.setStonesCount(hole.getStonesCount() + 1);
 
-		if (remStones > 0) {
-			for (int i = 1; i <= remStones; i++) {
-				Hole nextHole = (Hole) data.get(pitNumber + i);
-				nextHole.setStonesCount(nextHole.getStonesCount() + 1);
-				// Get the last hole where the turn ended
-				if (i == remStones)
-					lastHole = data.get(pitNumber + i);
-			}
-		}
+		//if (remStones > 0) {
+		//	for (int i = 1; i <= remStones; i++) {
+		//		System.out.println("NEXT:" + (pitNumber + i));
+		//		Hole nextHole = (Hole) data.get(pitNumber + i);		OUT OF BOUNDS HERE...IF pitNumber + i + remStones > 13
+		//		nextHole.setStonesCount(nextHole.getStonesCount() + 1);
+		//		// Get the last hole where the turn ended
+		//		if (i == remStones)
+		//			lastHole = data.get(pitNumber + i);
+		//	}
+		//}
 		return lastHole;
 
 	}

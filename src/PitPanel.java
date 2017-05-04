@@ -11,7 +11,7 @@ public class PitPanel extends JPanel implements ChangeListener
 {
 	private PitView[] myPits;
 	private Model model;
-	private ArrayList<Hole> data;
+	//private ArrayList<Hole> data;
 	private Point mousePosition;
 	private Rectangle2D.Double board;
 	
@@ -26,18 +26,23 @@ public class PitPanel extends JPanel implements ChangeListener
 
 	
 	
-	public PitPanel(Model model)
+	public PitPanel(final Model model)
 	{
 		this.addMouseListener(new MouseAdapter()
 			{
 				@Override
 				public void mousePressed(MouseEvent event)
 				{
+					System.out.println("In mouse pressed");
+					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
+					
 					mousePosition = event.getPoint();	//get Mouse Click Position
 					for(int i = 0; i < myPits.length; i++)
 					{
 						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
 						{
+							System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
+							
 							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 13)
 							{
 								return;	//don't allow click on Mancala Pit
@@ -56,15 +61,18 @@ public class PitPanel extends JPanel implements ChangeListener
 							}
 							else
 							{
+								System.out.print("Before update board");
 								model.updateBoard(myPits[i].getPitNumber()); // do move
+								System.out.print("After update board");
 							}
 						}
 					}
 				}
 			  });
+		this.model = model;
 		this.setSize(1000, 400);
 		this.setLayout(new FlowLayout());
-		data = new ArrayList<Hole>();
+//		data = new ArrayList<Hole>();
 		myPits = new PitView[DEFAULT_PITS_NUMBER];
 		board = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
@@ -74,11 +82,11 @@ public class PitPanel extends JPanel implements ChangeListener
 			myPits[7] = new PitView(model, 7, 0, DEFAULT_WIDTH - PIT_WIDTH, 0, true);
 			for(int i = 1; i < 7; i++)
 			{
-				myPits[i] = new PitView(model, i, 4, PIT_WIDTH * i, 0);
+				myPits[i] = new PitView(model, i, 4, PIT_WIDTH * i, DEFAULT_HEIGHT / 2);
 			}
 			for(int j = 8; j < 14; j++)
 			{
-				myPits[j] = new PitView(model, j, 4, PIT_WIDTH * j - DEFAULT_WIDTH + PIT_WIDTH, DEFAULT_HEIGHT / 2);
+				myPits[j] = new PitView(model, j, 4, DEFAULT_WIDTH - 2*PIT_WIDTH - (j-8)*PIT_WIDTH, 0);
 			}
 
 	}
@@ -91,29 +99,33 @@ public class PitPanel extends JPanel implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		data = model.getData();
+		System.out.println("In state changed");
+		ArrayList<Hole> data = model.getData();
+		System.out.println("Data size -->"+ data.size());
 		int stones = 0;
 		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
 		   stones = data.get(i).getStonesCount();
+		   System.out.println(i + "" + stones);
 		   myPits[i].setNumStones(stones);
 		}
-		this.repaint();
+		repaint();
 	}
 
 	/**
 	 * Gets copy of data.
 	 * @return the data
-	 */
+	 *//*
 	public Model getData(){
 		return model;
-	}
+	}*/
 	/**
 	 * Paint the Pits on the Panel.
 	 * @param pit
 	 */
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		//Missing something on this line?
 		g2.draw(board);
@@ -131,7 +143,10 @@ public class PitPanel extends JPanel implements ChangeListener
 		}
 		drawMancalaStones(myPits[0], g2);
 		drawMancalaStones(myPits[7], g2);
+		System.out.println("WEE");
 	}
+	
+
 	
 	/**
 	 * Creates an ellipse to use as a stone.
@@ -195,6 +210,7 @@ public class PitPanel extends JPanel implements ChangeListener
 		}
 		while(j < p.getNumStones() && j < 7)
 		{
+			System.out.println(j + "" + p.getNumStones());
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);

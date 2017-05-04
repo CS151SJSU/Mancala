@@ -6,6 +6,7 @@ public class Tester
 	{
 		Model model = new Model();
 		PitPanel panel = new PitPanel(model);
+		model.attach(panel);
 		JFrame frame = new JFrame();
 		frame.setSize(1250, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
