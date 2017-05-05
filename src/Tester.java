@@ -5,7 +5,8 @@ public class Tester
 	public static void main(String[] args) 
 	{
 		Model model = new Model();
-		PitPanel panel = new PitPanel(model);
+		StyleStrategy s = new BlackWhiteStyle(4);
+		PitPanel panel = new PitPanel(model, s);
 		model.attach(panel);
 		JFrame frame = new JFrame();
 		frame.setSize(1250, 500);

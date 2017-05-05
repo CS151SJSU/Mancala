@@ -11,7 +11,7 @@ public class PitPanel extends JPanel implements ChangeListener
 {
 	private PitView[] myPits;
 	private Model model;
-	//private ArrayList<Hole> data;
+	private StyleStrategy style;
 	private Point mousePosition;
 	private Rectangle2D.Double board;
 	
@@ -26,8 +26,9 @@ public class PitPanel extends JPanel implements ChangeListener
 
 	
 	
-	public PitPanel(final Model model)
+	public PitPanel(final Model model, StyleStrategy style)
 	{
+		this.style = style;
 		this.addMouseListener(new MouseAdapter()
 			{
 				@Override
@@ -43,7 +44,7 @@ public class PitPanel extends JPanel implements ChangeListener
 						{
 							System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
 							
-							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 13)
+							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 7)
 							{
 								return;	//don't allow click on Mancala Pit
 							}
@@ -112,13 +113,6 @@ public class PitPanel extends JPanel implements ChangeListener
 	}
 
 	/**
-	 * Gets copy of data.
-	 * @return the data
-	 *//*
-	public Model getData(){
-		return model;
-	}*/
-	/**
 	 * Paint the Pits on the Panel.
 	 * @param pit
 	 */
@@ -126,171 +120,6 @@ public class PitPanel extends JPanel implements ChangeListener
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		//Missing something on this line?
-		g2.draw(board);
-		g2.draw(myPits[0]);
-		g2.draw(myPits[7]);
-		for(int i = 1; i < 7; i++)
-		{
-			g2.draw(myPits[i]);
-			drawPitStones(myPits[i], g2);
-		}
-		for(int i = 8; i < 14; i++)
-		{
-			g2.draw(myPits[i]);
-			drawPitStones(myPits[i], g2);
-		}
-		drawMancalaStones(myPits[0], g2);
-		drawMancalaStones(myPits[7], g2);
+		style.paintBoard(g2, board, myPits);
 	}
-	
-
-	
-	/**
-	 * Creates an ellipse to use as a stone.
-	 */
-	public void drawPitStones(PitView p, Graphics2D g2)
-	{
-		double centerX = p.getXPos() + PIT_WIDTH / 2;
-		double centerY = p.getYPos() + PIT_WIDTH / 2;
-		centerX -= PIT_WIDTH / 12;
-		centerY -= PIT_WIDTH / 12;
-		
-		int offset = PIT_WIDTH / 6;
-		double angle = 0;
-		
-		int j = 0;
-		if(p.getNumStones() > 0)
-		{
-			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
-			g2.draw(stone);
-			j++;
-		}
-		while(j < p.getNumStones() && j < 7)
-		{
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 3;
-			j++;
-		}
-		
-		offset += PIT_WIDTH / 6;
-		while(j < p.getNumStones() && j < 19)
-		{
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 6;
-			j++;
-		}
-	}
-	
-	public void drawMancalaStones(PitView p, Graphics2D g2)
-	{
-		double centerX = p.getXPos() + PIT_WIDTH / 2;
-		double centerY = DEFAULT_HEIGHT / 3;
-		centerX -= PIT_WIDTH / 12;
-		centerY -= PIT_WIDTH / 3;
-		int offset = PIT_WIDTH / 6;
-		double angle = 0;
-		
-		int j = 0;
-		if(p.getNumStones() > 0)
-		{
-			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
-			g2.draw(stone);
-			j++;
-		}
-		while(j < p.getNumStones() && j < 7)
-		{
-			System.out.println(j + "" + p.getNumStones());
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 3;
-			j++;
-		}
-		offset += PIT_WIDTH / 6;
-		while(j < p.getNumStones() && j < 19)
-		{
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 6;
-			j++;
-		}
-		offset -= PIT_WIDTH / 6;
-		centerY = 2 * DEFAULT_HEIGHT / 3;
-		centerY += PIT_WIDTH / 6;
-		if(p.getNumStones() > 19)
-		{
-			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
-			g2.draw(stone);
-			j++;
-		}
-		while(j < p.getNumStones() && j < 26)
-		{
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 3;
-			j++;
-		}
-		offset += PIT_WIDTH / 6;
-		while(j < p.getNumStones() && j < 38)
-		{	
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 6;
-			j++;	
-		}
-		centerX = p.getXPos() + PIT_WIDTH / 2 - PIT_WIDTH / 12;
-		centerY = DEFAULT_HEIGHT / 2 - PIT_WIDTH / 6;
-		if(p.getNumStones() > 38)
-		{
-			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
-			g2.draw(stone);
-			j++;
-		}
-		offset -= PIT_WIDTH / 6;
-		while(j < p.getNumStones() && j < 45)
-		{	
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-	
-			g2.draw(stone);
-			angle += PI / 3;
-			j++;	
-		}
-		offset += PIT_WIDTH / 8;
-		angle = PI / 2;
-		while(j < p.getNumStones())
-		{
-			double x = centerX + Math.cos(angle) * offset;
-			double y = centerY + Math.sin(angle) * offset;
-			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
-			g2.draw(stone);
-			angle += 2 * PI / 3;
-			j++;
-		}
-	}
-	
-	
-	
-	
 }
