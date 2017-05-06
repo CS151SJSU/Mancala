@@ -4,11 +4,9 @@ import java.awt.geom.Rectangle2D.Double;
 
 public class DefaultStyle implements StyleStrategy
 {
-	private final int numStones;
 	
-	public DefaultStyle(int numStones)
+	public DefaultStyle()
 	{
-		this.numStones = numStones;
 	}
 	
 	@Override
