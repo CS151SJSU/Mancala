@@ -4,7 +4,7 @@ public class Hole implements Cloneable {
 	public static final int NORMAL_HOLE = 0;
 	private int id; // i do the hole from 0 to 13 in an anticlockwise direction starting from the left Mancala
 	private int stonesCount; // No. of stones currently in the hole
-	private boolean isEmpty; // Is the hole empty
+	//private boolean isEmpty; // Is the hole empty
 	private int belongsto; // id of the player that the hole belongs to (1 or 2)
 	private int type; // Normal or Mancala
 	
@@ -39,12 +39,12 @@ public class Hole implements Cloneable {
 	}
 	
 	public boolean isEmpty() {
-		return isEmpty;
+		return (stonesCount==0);
 	}
 	
-	public void setEmpty(boolean isEmpty) {
+	/*public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
-	}
+	}*/
 	
 	public int getBelongsto() {
 		return belongsto;

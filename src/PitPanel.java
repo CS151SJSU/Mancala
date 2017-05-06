@@ -34,15 +34,15 @@ public class PitPanel extends JPanel implements ChangeListener
 				@Override
 				public void mousePressed(MouseEvent event)
 				{
-					System.out.println("In mouse pressed");
-					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
+					/*System.out.println("In mouse pressed");
+					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());*/
 					
 					mousePosition = event.getPoint();	//get Mouse Click Position
 					for(int i = 0; i < myPits.length; i++)
 					{
 						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
 						{
-							System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
+							//System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
 							
 							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 7)
 							{
@@ -62,9 +62,9 @@ public class PitPanel extends JPanel implements ChangeListener
 							}
 							else
 							{
-								System.out.print("Before update board");
+								//System.out.print("Before update board");
 								model.updateBoard(myPits[i].getPitNumber()); // do move
-								System.out.print("After update board");
+								//System.out.print("After update board");
 							}
 						}
 					}
@@ -100,9 +100,9 @@ public class PitPanel extends JPanel implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		System.out.println("In state changed");
+		//System.out.println("In state changed");
 		ArrayList<Hole> data = model.getData();
-		System.out.println("Data size -->"+ data.size());
+		//System.out.println("Data size -->"+ data.size());
 		int stones = 0;
 		for(int i = 0; i < DEFAULT_PITS_NUMBER; i++)
 		{
@@ -110,6 +110,20 @@ public class PitPanel extends JPanel implements ChangeListener
 		   myPits[i].setNumStones(stones);
 		}
 		repaint();
+		if(model.isGameOver())
+		{
+			String winner;
+			if(data.get(Model.FIRST_PLAYER_MANCALA).getStonesCount() > data.get(Model.SECOND_PLAYER_MANCALA).getStonesCount())
+				winner = "Player1";
+			else if(data.get(Model.FIRST_PLAYER_MANCALA).getStonesCount() < data.get(Model.SECOND_PLAYER_MANCALA).getStonesCount())
+				winner = "Player2";
+			else
+				winner = "Game Drawn";
+			JOptionPane.showMessageDialog(null, "Game Over \nWinner : "+winner+""
+					+ "\nPlayer 1: "+data.get(Model.FIRST_PLAYER_MANCALA).getStonesCount() 
+					+ "\nPlayer 2: "+data.get(Model.SECOND_PLAYER_MANCALA).getStonesCount() );
+		}
+			
 	}
 
 	/**
