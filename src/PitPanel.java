@@ -16,6 +16,8 @@ public class PitPanel extends JPanel implements ChangeListener
 	private Rectangle2D.Double board;
 	private JTextField turnIndicator;
 	private JTextField errorToast;
+	private static int lastTurn;
+	private int undoCount;
 	
 	private static final double PI = 3.14159265359;
 
@@ -25,10 +27,14 @@ public class PitPanel extends JPanel implements ChangeListener
 	private static final int PIT_HEIGHT = DEFAULT_HEIGHT / 2;
 	private static final int MANCALA_HEIGHT = DEFAULT_HEIGHT;
 	private static final int DEFAULT_PITS_NUMBER = 14;
+	private static final int NORMAL_TURN=0;
+	private static final int UNDO_TURN=1;
+	
 
 	public PitPanel(final Model model, StyleStrategy style)
 	{
 		this.style = style;
+		this.undoCount=0;
 		this.addMouseListener(new MouseAdapter()
 			{
 				@Override
@@ -39,8 +45,8 @@ public class PitPanel extends JPanel implements ChangeListener
 					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());*/
 					
 
-					System.out.println("In mouse pressed");
-					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
+					//System.out.println("In mouse pressed");
+					//System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
 					errorToast.setVisible(false);
 					
 					mousePosition = event.getPoint();	//get Mouse Click Position
@@ -48,7 +54,7 @@ public class PitPanel extends JPanel implements ChangeListener
 					{
 						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
 						{
-							System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
+							//System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
 							
 							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 7)
 							{
@@ -77,8 +83,14 @@ public class PitPanel extends JPanel implements ChangeListener
 							else
 							{
 								//System.out.print("Before update board");
+								
+								
+								System.out.println("Calling update board -->"+undoCount);
 								model.updateBoard(myPits[i].getPitNumber()); // do move
+								if( (lastTurn==UNDO_TURN) && undoCount>3)
+									undoCount=0;
 								//System.out.print("After update board");
+								lastTurn=NORMAL_TURN;
 							}
 						}
 					}
@@ -91,7 +103,24 @@ public class PitPanel extends JPanel implements ChangeListener
 					@Override
 					public void actionPerformed(ActionEvent event)
 					{
-						//DO UNDO STUFF
+						System.out.println("In undo action performed-->"+undoCount);
+						
+						if(lastTurn == UNDO_TURN)
+							JOptionPane.showMessageDialog(null,"You cannot make consecutive undo moves. Pleas take a normal turn(clcik on a pit)");
+						else
+						{
+							undoCount++;
+							if(undoCount > 3)
+								JOptionPane.showMessageDialog(null,"You cannot make more than 3 undo moves. Pleas take a normal turn(clcik on a pit)");
+							else
+							{
+								model.undo();
+							}
+								
+						}
+						lastTurn = UNDO_TURN;
+							
+							
 					}
 				};
 		undoButton.addActionListener(undoListener);

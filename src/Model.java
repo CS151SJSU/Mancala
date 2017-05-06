@@ -12,9 +12,12 @@ public class Model {
 	public static final int SECOND_PLAYER_MANCALA = 0;
 	//private static final int GAME_NOT_OVER = 100;
 	private boolean gameOver;
+	private boolean extraChance;
+	
 	
 
 	private ArrayList<Hole> data;
+	private int[] lastStoneCount;
 
 	private boolean isFirstPlayerTurn; // Indicates whehter it is the turn of player 1 or player 2
 	
@@ -41,9 +44,12 @@ public class Model {
 				belongsTo = 2;
 			data.add(new Hole(i, belongsTo, type, initialStonesCount));
 		}
+		lastStoneCount = new int[data.size()];
 		listeners = new ArrayList<ChangeListener>();
 		isFirstPlayerTurn = true;
 		gameOver=false;
+		extraChance=false;
+		
 	}
 	
 	public boolean isGameOver() {
@@ -81,8 +87,11 @@ public class Model {
 		
 		//System.out.println("At start of move stones");
 		//System.out.println("Pit No -->" + pitNumber);
+		// Store the sone count for undo
+		for(int i =0; i < TOTAL_HOLES; i++ )
+			lastStoneCount[i] = data.get(i).getStonesCount(); 
 		Hole lastHole = moveStones(pitNumber);
-		System.out.println("Before game over");
+		//System.out.println("Before game over");
 		
 
 		// Check the case where the stone getIsFirstPlayerTurngetIsFirstPlayerTurnends up in an empty hole on the side of the player playing the turn
@@ -90,11 +99,16 @@ public class Model {
 		
 		// check for game over
 				gameOver();
-				System.out.println("After game over");
+		//		System.out.println("After game over");
 		
 		// if there is no additional turn then toggle or change the turn
 		if (!isAdditionalTurn(lastHole))
+		{
 			isFirstPlayerTurn = !isFirstPlayerTurn;
+			extraChance = false;
+		}
+		else
+			extraChance = true;
 
 		// Inform listeners of data change
 		for (ChangeListener l : listeners) {
@@ -175,14 +189,14 @@ public class Model {
 
 	// Checks whether the game is over and accordingly set the gameOver var
 	public void gameOver() {
-		System.out.println("In game over");
+		//System.out.println("In game over");
 		boolean p1Empty = true, p2Empty = true;
 		
 		for(int i=1; i < (TOTAL_HOLES/2); i ++)
 		{
 			if(!data.get(i).isEmpty())
 			{
-				System.out.println("Player 1 Non empty -->"+i);
+				//System.out.println("Player 1 Non empty -->"+i);
 				p1Empty = false;
 				break;
 			}
@@ -204,7 +218,7 @@ public class Model {
 		{
 			if(data.get(i).getStonesCount() > 0)
 			{
-				System.out.println("Player 2 Non empty -->"+i);
+				//System.out.println("Player 2 Non empty -->"+i);
 				p2Empty = false;
 				break;
 			}	
@@ -220,10 +234,23 @@ public class Model {
 			}
 			gameOver=true;
 		}
-		System.out.println("pl1Empty -->"+p1Empty);
-		System.out.println("pl2Empty -->"+p2Empty);
-		System.out.println("Game Over ---->"+gameOver);
+		
+		//System.out.println("Game Over ---->"+gameOver);
 
+	}
+	
+	//Handle undo
+	public void undo()
+	{
+		for(int i = 0; i < data.size(); i++)
+			data.get(i).setStonesCount(lastStoneCount[i]);
+		
+		if(!extraChance)
+			isFirstPlayerTurn = !isFirstPlayerTurn;
+		// Inform listeners of data change
+				for (ChangeListener l : listeners) {
+					l.stateChanged(new ChangeEvent(this));
+				}		
 	}
 
 }
