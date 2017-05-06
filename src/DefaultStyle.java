@@ -1,6 +1,8 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D.Double;
+import java.util.Random;
 /**
  * COPYRIGHT (C) 2017 Team 8. All Rights Reserved. 
  * CS 151 Kim: Mancala Project
@@ -12,6 +14,10 @@ import java.awt.geom.Rectangle2D.Double;
  * Create a Default Style implementing StyleStrategy interface.
  */
 public class DefaultStyle implements StyleStrategy{
+	private String[] colors = new String[] { "0xED1C24", "0xF26522", "0xF7941D", 
+			"0xFFF200", "0x8DC73F", "0x39B54A", "0x00A651", "0x00A99D", "0x00AEEF", 
+			"0x0072BC", "0x0054A6", "0x2E3192", "0x662D91", "0x92278F", "0xEC008C", "0xED145B" };
+
 	/**
 	 * @param
 	 */
@@ -61,17 +67,26 @@ public class DefaultStyle implements StyleStrategy{
 		
 		int j = 0;
 		if(p.getNumStones() > 0){
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
 			g2.draw(stone);
+			g2.fill(stone);
 			j++;
 		}
 		
 		while(j < p.getNumStones() && j < 7){
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 3;
 			j++;
 		}
@@ -80,9 +95,14 @@ public class DefaultStyle implements StyleStrategy{
 		while(j < p.getNumStones() && j < 19){
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 6;
 			j++;
 		}
@@ -104,8 +124,12 @@ public class DefaultStyle implements StyleStrategy{
 		
 		int j = 0;
 		if(p.getNumStones() > 0){
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
 			g2.draw(stone);
+			g2.fill(stone);
 			j++;
 		}
 		
@@ -113,9 +137,13 @@ public class DefaultStyle implements StyleStrategy{
 			System.out.println(j + "" + p.getNumStones());
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 3;
 			j++;
 		}
@@ -124,9 +152,13 @@ public class DefaultStyle implements StyleStrategy{
 		while(j < p.getNumStones() && j < 19){
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 6;
 			j++;
 		}
@@ -135,17 +167,25 @@ public class DefaultStyle implements StyleStrategy{
 		centerY += PIT_WIDTH / 6;
 		
 		if(p.getNumStones() > 19){
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(centerX, centerY, PIT_WIDTH / 6, PIT_WIDTH / 6);
 			g2.draw(stone);
+			g2.fill(stone);
 			j++;
 		}
 		
 		while(j < p.getNumStones() && j < 26){
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 3;
 			j++;
 		}
@@ -154,9 +194,13 @@ public class DefaultStyle implements StyleStrategy{
 		while(j < p.getNumStones() && j < 38){	
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 6;
 			j++;	
 		}
@@ -173,9 +217,13 @@ public class DefaultStyle implements StyleStrategy{
 		while(j < p.getNumStones() && j < 45){	
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 	
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += PI / 3;
 			j++;	
 		}
@@ -185,8 +233,12 @@ public class DefaultStyle implements StyleStrategy{
 		while(j < p.getNumStones()){
 			double x = centerX + Math.cos(angle) * offset;
 			double y = centerY + Math.sin(angle) * offset;
+			Random randomGenerator = new Random();
+			String color = colors[randomGenerator.nextInt(colors.length)];
+			g2.setColor(Color.decode(color));
 			Ellipse2D.Double stone = new Ellipse2D.Double(x, y, PIT_WIDTH / 6, PIT_WIDTH / 6);
 			g2.draw(stone);
+			g2.fill(stone);
 			angle += 2 * PI / 3;
 			j++;
 		}

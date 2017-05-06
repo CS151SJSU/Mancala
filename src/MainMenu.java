@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 public class MainMenu extends JDialog
 {
@@ -29,7 +31,8 @@ public class MainMenu extends JDialog
 		pane = getContentPane();
 		setSize(WIDTH, HEIGHT);
 		JPanel strategyPanel = new JPanel();
-		JLabel instructions = new JLabel("Choose a board style");
+		JLabel instructions = new JLabel("Choose a board style", SwingConstants.CENTER);
+		instructions.setFont(new Font("Serif", Font.PLAIN, 25));
 		
 		JRadioButton[] styleButtons = new JRadioButton[styles.length];
 		ButtonGroup radioMutex = new ButtonGroup();
