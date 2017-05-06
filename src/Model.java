@@ -13,7 +13,7 @@ public class Model {
 	//private static final int GAME_NOT_OVER = 100;
 	private boolean gameOver;
 	private boolean extraChance;
-	
+	private boolean initialized;
 	
 
 	private ArrayList<Hole> data;
@@ -49,7 +49,7 @@ public class Model {
 		isFirstPlayerTurn = true;
 		gameOver=false;
 		extraChance=false;
-		
+		initialized = false;
 	}
 	
 	public boolean isGameOver() {
@@ -88,6 +88,7 @@ public class Model {
 		//System.out.println("At start of move stones");
 		//System.out.println("Pit No -->" + pitNumber);
 		// Store the sone count for undo
+		initialized = true;
 		for(int i =0; i < TOTAL_HOLES; i++ )
 			lastStoneCount[i] = data.get(i).getStonesCount(); 
 		Hole lastHole = moveStones(pitNumber);
@@ -242,6 +243,10 @@ public class Model {
 	//Handle undo
 	public void undo()
 	{
+		if(!initialized)
+		{
+			return;
+		}
 		for(int i = 0; i < data.size(); i++)
 			data.get(i).setStonesCount(lastStoneCount[i]);
 		
@@ -252,5 +257,24 @@ public class Model {
 					l.stateChanged(new ChangeEvent(this));
 				}		
 	}
-
+	
+	public void initStones(int numStones)
+	{
+		for(int i = 1; i < 7; i++)
+		{
+			data.get(i).setStonesCount(numStones);
+		}
+		for(int i = 8; i < 14; i++)
+		{
+			data.get(i).setStonesCount(numStones);
+		}
+		for (ChangeListener l : listeners) {
+			l.stateChanged(new ChangeEvent(this));
+		}
+	}
+	
+	public boolean getInitialized()
+	{
+		return initialized;
+	}
 }

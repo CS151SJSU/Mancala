@@ -24,6 +24,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 	private Rectangle2D.Double board;
 	private JTextField turnIndicator; // This is View
 	private JTextField errorToast; // This is View
+	private JTextField remainingUndo;
 	private static int lastTurn;
 	private int undoCount;
 	
@@ -109,7 +110,11 @@ public class PitPanel extends JPanel implements ChangeListener{
 			@Override
 			public void actionPerformed(ActionEvent event){
 				System.out.println("In undo action performed-->" + undoCount);
-				
+				if(!model.getInitialized())
+				{
+					JOptionPane.showMessageDialog(null,"There are no moves to undo, take a turn");
+					return;
+				}
 				// If players already press on the undo button,
 				// then system will show error method. 
 				if(lastTurn == UNDO_TURN)
@@ -125,6 +130,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 				}
 				// Undo the last turn.
 				lastTurn = UNDO_TURN;
+				remainingUndo.setText("Undo's remaining this turn: " + undoCount);	
 			}// End of the actionPerformed method.
 		}); // End of the anonymous class.
 		
@@ -151,6 +157,12 @@ public class PitPanel extends JPanel implements ChangeListener{
 		
 		// Add an errorToast JTextField into JPanel.
 		this.add(errorToast);
+
+		remainingUndo = new JTextField();
+		this.add(remainingUndo);
+		remainingUndo.setText("Undo's remaining this turn: 3");
+		remainingUndo.setEditable(false);
+
 		this.setLayout(null);
 		
 		// Sets all bounds for turnIndicator and errorToast.
@@ -159,6 +171,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 		errorToast.setBounds(PIT_WIDTH + PIT_WIDTH / 2, DEFAULT_HEIGHT /2 - 
 				(int) (PIT_WIDTH * 0.5), (int) (PIT_WIDTH * 1.5), (int) (PIT_WIDTH * 0.4));
 		errorToast.setVisible(false);
+		remainingUndo.setBounds((int) (DEFAULT_WIDTH / 2 - PIT_WIDTH * 0.4) + (int) (PIT_WIDTH * 0.8) , DEFAULT_HEIGHT /2 - (int) (PIT_WIDTH * 0.5), (int) (PIT_WIDTH * 1.5), (int) (PIT_WIDTH * 0.4));
 		
 		// Set all bounds for the undo button.
 		undoButton.setBounds((int) (DEFAULT_WIDTH / 2 - PIT_WIDTH * 0.4), DEFAULT_HEIGHT /2 - 

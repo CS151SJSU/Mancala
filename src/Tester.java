@@ -22,7 +22,7 @@ public class Tester {
 		JFrame frame = new JFrame();
 		
 		// Set the frame layout to the flow layout.
-		frame.setLayout(new FlowLayout());
+		//frame.setLayout(new FlowLayout());
 		
 		//Create a MainMenu for the game.
 		MainMenu styleChoice = new MainMenu(frame, p);
@@ -48,5 +48,12 @@ public class Tester {
 		// Pack them up and display.
 		//frame.pack();
 		frame.setVisible(true);
+
+		StoneMenu sm = new StoneMenu(frame);
+		sm.setAlwaysOnTop(true);
+		sm.showDialog();
+		
+		int k =sm.getNumStones();
+		model.initStones(k);
 	}// End of the main method.
 }// End of the MancalaTester class
