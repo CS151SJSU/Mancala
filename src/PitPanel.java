@@ -14,6 +14,8 @@ public class PitPanel extends JPanel implements ChangeListener
 	private StyleStrategy style;
 	private Point mousePosition;
 	private Rectangle2D.Double board;
+	private JTextField turnIndicator;
+	private JTextField errorToast;
 	
 	private static final double PI = 3.14159265359;
 
@@ -24,8 +26,6 @@ public class PitPanel extends JPanel implements ChangeListener
 	private static final int MANCALA_HEIGHT = DEFAULT_HEIGHT;
 	private static final int DEFAULT_PITS_NUMBER = 14;
 
-	
-	
 	public PitPanel(final Model model, StyleStrategy style)
 	{
 		this.style = style;
@@ -34,30 +34,44 @@ public class PitPanel extends JPanel implements ChangeListener
 				@Override
 				public void mousePressed(MouseEvent event)
 				{
+
 					/*System.out.println("In mouse pressed");
 					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());*/
+					
+
+					System.out.println("In mouse pressed");
+					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
+					errorToast.setVisible(false);
 					
 					mousePosition = event.getPoint();	//get Mouse Click Position
 					for(int i = 0; i < myPits.length; i++)
 					{
 						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
 						{
-							//System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
+							System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
 							
 							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 7)
 							{
+								errorToast.setText("You may not select a Mancala Pit");
+								errorToast.setVisible(true);
 								return;	//don't allow click on Mancala Pit
 							}
 							else if(myPits[i].getPitNumber() > 6 && model.getIsFirstPlayerTurn())
 							{
+								errorToast.setText("You may not select opponent's pit");
+								errorToast.setVisible(true);
 								return;	//don't allow player 1 to select player 2 pit
 							}
 							else if(model.getIsFirstPlayerTurn() == false && myPits[i].getPitNumber() < 7)
 							{
+								errorToast.setText("You may not select opponent's pit");
+								errorToast.setVisible(true);
 								return;	//don't allow player 2 to click player 1 pit
 							}
 							else if(myPits[i].getNumStones() == 0)
 							{
+								errorToast.setText("You may not select an empty pit");
+								errorToast.setVisible(true);
 								return;	//cant move if no stones in pit
 							}
 							else
@@ -71,9 +85,31 @@ public class PitPanel extends JPanel implements ChangeListener
 				}
 			  });
 		this.model = model;
+		JButton undoButton = new JButton("Undo Move");
+		ActionListener undoListener = new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent event)
+					{
+						//DO UNDO STUFF
+					}
+				};
+		undoButton.addActionListener(undoListener);
+		this.add(undoButton);
 		this.setSize(1000, 400);
-		this.setLayout(new FlowLayout());
-//		data = new ArrayList<Hole>();
+		turnIndicator = new JTextField();
+		this.add(turnIndicator);
+		turnIndicator.setText("  Player 1's Turn");
+		turnIndicator.setEditable(false);
+		this.errorToast = new JTextField();
+		errorToast.setEditable(false);
+		errorToast.setText("Yabba dabba doo");
+		this.add(errorToast);
+		this.setLayout(null);
+		turnIndicator.setBounds((int) (DEFAULT_WIDTH / 2 - PIT_WIDTH * 0.4), DEFAULT_HEIGHT - (int)(PIT_WIDTH * 0.4), (int) (PIT_WIDTH * 0.8), (int) (PIT_WIDTH * 0.4));
+		errorToast.setBounds(PIT_WIDTH + PIT_WIDTH / 2, DEFAULT_HEIGHT /2 - (int) (PIT_WIDTH * 0.5), (int) (PIT_WIDTH * 1.5), (int) (PIT_WIDTH * 0.4));
+		errorToast.setVisible(false);
+		undoButton.setBounds((int) (DEFAULT_WIDTH / 2 - PIT_WIDTH * 0.4), DEFAULT_HEIGHT /2 - (int) (PIT_WIDTH * 0.5), (int) (PIT_WIDTH * 0.8), (int) (PIT_WIDTH * 0.4));
 		myPits = new PitView[DEFAULT_PITS_NUMBER];
 		board = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
@@ -89,7 +125,6 @@ public class PitPanel extends JPanel implements ChangeListener
 			{
 				myPits[j] = new PitView(model, j, 4, DEFAULT_WIDTH - 2*PIT_WIDTH - (j-8)*PIT_WIDTH, 0);
 			}
-
 	}
 	
 	
@@ -124,6 +159,14 @@ public class PitPanel extends JPanel implements ChangeListener
 					+ "\nPlayer 2: "+data.get(Model.SECOND_PLAYER_MANCALA).getStonesCount() );
 		}
 			
+		if(model.getIsFirstPlayerTurn())
+		{
+			turnIndicator.setText("  Player 1's Turn");
+		}
+		else
+		{
+			turnIndicator.setText("  Player 2's Turn");
+		}
 	}
 
 	/**
