@@ -6,9 +6,11 @@ import java.awt.geom.Rectangle2D.Double;
 public class BlackWhiteStyle implements StyleStrategy
 {
 
+private final int numStones;
 	
-	public BlackWhiteStyle()
+	public BlackWhiteStyle(int numStones)
 	{
+		this.numStones = numStones;
 	}
 	
 	@Override

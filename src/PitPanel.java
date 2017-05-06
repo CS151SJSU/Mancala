@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -38,12 +40,22 @@ public class PitPanel extends JPanel implements ChangeListener
 				@Override
 				public void mousePressed(MouseEvent event)
 				{
+
+					/*System.out.println("In mouse pressed");
+					System.out.println("Turn -->" + model.getIsFirstPlayerTurn());*/
+					
+
+					//System.out.println("In mouse pressed");
+					//System.out.println("Turn -->" + model.getIsFirstPlayerTurn());
 					errorToast.setVisible(false);
+					
 					mousePosition = event.getPoint();	//get Mouse Click Position
 					for(int i = 0; i < myPits.length; i++)
 					{
 						if(myPits[i].contains(mousePosition)) //Check if clicked on a pit
-						{	
+						{
+							//System.out.println("Pit clicked -->" + myPits[i].getPitNumber());
+							
 							if(myPits[i].getPitNumber() == 0 || myPits[i].getPitNumber() == 7)
 							{
 								errorToast.setText("You may not select a Mancala Pit");
@@ -70,10 +82,14 @@ public class PitPanel extends JPanel implements ChangeListener
 							}
 							else
 							{
+								//System.out.print("Before update board");
+								
+								
 								System.out.println("Calling update board -->"+undoCount);
 								model.updateBoard(myPits[i].getPitNumber()); // do move
 								if( (lastTurn==UNDO_TURN) && undoCount>3)
 									undoCount=0;
+								//System.out.print("After update board");
 								lastTurn=NORMAL_TURN;
 							}
 						}
@@ -132,11 +148,11 @@ public class PitPanel extends JPanel implements ChangeListener
 			myPits[7] = new PitView(model, 7, 0, DEFAULT_WIDTH - PIT_WIDTH, 0, true);
 			for(int i = 1; i < 7; i++)
 			{
-				myPits[i] = new PitView(model, i, 0, PIT_WIDTH * i, DEFAULT_HEIGHT / 2);
+				myPits[i] = new PitView(model, i, 4, PIT_WIDTH * i, DEFAULT_HEIGHT / 2);
 			}
 			for(int j = 8; j < 14; j++)
 			{
-				myPits[j] = new PitView(model, j, 0, DEFAULT_WIDTH - 2*PIT_WIDTH - (j-8)*PIT_WIDTH, 0);
+				myPits[j] = new PitView(model, j, 4, DEFAULT_WIDTH - 2*PIT_WIDTH - (j-8)*PIT_WIDTH, 0);
 			}
 	}
 	
