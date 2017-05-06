@@ -193,7 +193,7 @@ public class Model {
 		//System.out.println("In game over");
 		boolean p1Empty = true, p2Empty = true;
 		
-		for(int i=1; i < (TOTAL_HOLES/2); i ++)
+		for(int i=1; i < 7; i ++)
 		{
 			if(!data.get(i).isEmpty())
 			{
@@ -206,8 +206,8 @@ public class Model {
 		}
 		if(p1Empty)
 		{
-			Hole pl2Mancala = data.get(TOTAL_HOLES/2);
-			for(int i=(TOTAL_HOLES/2)+1; i < TOTAL_HOLES; i ++)
+			Hole pl2Mancala = data.get(0);
+			for(int i=8; i < TOTAL_HOLES; i ++)
 			{
 				pl2Mancala.setStonesCount(pl2Mancala.getStonesCount()+data.get(i).getStonesCount());
 				data.get(i).setStonesCount(0);
@@ -227,7 +227,7 @@ public class Model {
 		}
 		if(p2Empty)
 		{
-			Hole pl1Mancala = data.get(0);
+			Hole pl1Mancala = data.get(7);
 			for(int i=1; i < (TOTAL_HOLES/2); i ++)
 			{
 				pl1Mancala.setStonesCount(pl1Mancala.getStonesCount()+data.get(i).getStonesCount());
