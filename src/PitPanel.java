@@ -130,7 +130,7 @@ public class PitPanel extends JPanel implements ChangeListener{
 				}
 				// Undo the last turn.
 				lastTurn = UNDO_TURN;
-				remainingUndo.setText("Undo's remaining this turn: " + undoCount);	
+				remainingUndo.setText("Undo's remaining this turn: " + (3 - undoCount));	
 			}// End of the actionPerformed method.
 		}); // End of the anonymous class.
 		
