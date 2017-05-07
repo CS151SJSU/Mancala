@@ -102,7 +102,12 @@ public class MainMenu extends JDialog{
 		pane.add(strategyPanel, BorderLayout.CENTER);
 		pane.add(panel, BorderLayout.SOUTH);
 		setResizable(false);
-		
+		this.addWindowListener(new WindowAdapter() {
+            		@Override
+           		public void windowClosing(WindowEvent e) {          
+            			System.exit(0);;  //close 
+                } 
+       	});
 		
 	}// End of the constructor.
 	

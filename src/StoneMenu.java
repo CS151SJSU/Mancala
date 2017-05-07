@@ -38,7 +38,8 @@ public class StoneMenu extends JDialog{
 		JPanel stonePanel = new JPanel();
 		
 		/** JLabel instructing user what to do */
-		JLabel instructions = new JLabel("Choose the number of starting stones");
+		JLabel instructions = new JLabel("Choose the number of stones", SwingConstants.CENTER);
+		instructions.setFont(new Font("Serif", Font.PLAIN, 25));
 		
 		/** A ButtonGroup which allows only 1 of the group to be selected at a time */
 		ButtonGroup stoneMutex = new ButtonGroup();
@@ -93,6 +94,12 @@ public class StoneMenu extends JDialog{
 		pane.add(stonePanel, BorderLayout.CENTER);
 		pane.add(startButton, BorderLayout.SOUTH);
 		setResizable(false);
+      		this.addWindowListener(new WindowAdapter() {
+            	@Override
+            	public void windowClosing(WindowEvent e) {
+                            owner.dispose();  //close 
+                } 
+        	});
 	}// End of the constructor.
 	
 	/**
