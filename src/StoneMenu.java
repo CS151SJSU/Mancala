@@ -2,11 +2,17 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 /**
- * StoneMenu class extends JDialog to allow user to set the number of starting stones to 3 or 4 
- * @author Group2
+ * COPYRIGHT (C) 2017 Team 8. All Rights Reserved. 
+ * CS 151 Kim: Mancala Project
+ * Team members: Rahul Dalal, Nathan Hencky, Hiep Nguyen.
+ * Date: 05/06/2017
  */
-public class StoneMenu extends JDialog
-{
+
+/*
+ * StoneMenu class extends JDialog to allow user 
+ * to set the number of starting stones to 3 or 4 
+ */
+public class StoneMenu extends JDialog{
 	/** Hold the JDialog content pane */
 	private Container pane;
 	
@@ -21,10 +27,9 @@ public class StoneMenu extends JDialog
 	
 	/**
 	 * Normal Constructor
-	 * @param owner		the JFrame associated with this dialog
+	 * @param owner	The JFrame associated with this dialog
 	 */
-	public StoneMenu(Frame owner)
-	{
+	public StoneMenu(Frame owner){
 		super(owner, true);			//initialize super class
 		pane = getContentPane();	//get the content pane
 		setSize(WIDTH, HEIGHT);		//set the size of the menu
@@ -43,28 +48,24 @@ public class StoneMenu extends JDialog
 		
 		/** Radio style button to select 4 stones */
 		JRadioButton fourButton = new JRadioButton("Four", false);
+		
 		/** Add actionListener to set number of stones to 3 when three button pressed */
-		threeButton.addActionListener(new ActionListener()
-				{
-
+		threeButton.addActionListener(new 
+				ActionListener(){
 					@Override
-					public void actionPerformed(ActionEvent arg0) 
-					{
+					public void actionPerformed(ActionEvent arg0) {
 						numStones = 3;
-					}
-					
+					}		
 				});
 		/** Add actionListener to set number of stones to 4 when three button pressed */
-		fourButton.addActionListener(new ActionListener()
-				{
-
+		fourButton.addActionListener(new 
+				ActionListener(){
 					@Override
-					public void actionPerformed(ActionEvent e) 
-					{
+					public void actionPerformed(ActionEvent e){
 						numStones = 4;
 					}
-			
-				});
+				});// End of the anonymous class.
+		
 		/* Add the buttons to the panel */
 		stonePanel.add(threeButton);
 		stonePanel.add(fourButton);
@@ -77,38 +78,33 @@ public class StoneMenu extends JDialog
 		JButton startButton = new JButton("Start Game");
 		
 		/** JButton actionListener to dispose of this menu when user presses button */
-		startButton.addActionListener(new ActionListener()
-				{
-
+		startButton.addActionListener(new 
+				ActionListener(){
 					@Override
-					public void actionPerformed(ActionEvent e)
-					{
+					public void actionPerformed(ActionEvent e){
 						pane.setVisible(false);
 						dispose();
 					}
-					
-				});
+				});// End of the anonymous class.
+		
 		/* format the content pane and add the panel with radio buttons, the start button, and instructions */
 		pane.setLayout(new BorderLayout());
 		pane.add(instructions, BorderLayout.NORTH);
 		pane.add(stonePanel, BorderLayout.CENTER);
 		pane.add(startButton, BorderLayout.SOUTH);
 		setResizable(false);
-		
-	}
+	}// End of the constructor.
 	
 	/**
 	 * Get the number of stones the user selected
 	 * @return	int number of stones selected by user
 	 */
-	public int getNumStones()
-	{
+	public int getNumStones(){
 		return numStones;
-	}
+	}// End of the method.
 	
 	/** Make the menu visible to interact with */
-	public void showDialog()
-	{
+	public void showDialog(){
 		setVisible(true);
-	}
-}
+	}// End of the method.
+}// End of the class.
